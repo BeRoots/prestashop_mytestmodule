@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>mytestmodule</name>
+	<displayName><![CDATA[mytestmodule display name]]></displayName>
+	<version><![CDATA[1.0.0]]></version>
+	<description><![CDATA[A description for mytestmodule]]></description>
+	<author><![CDATA[beroots]]></author>
+	<tab><![CDATA[seo]]></tab>
+	<is_configurable>1</is_configurable>
+	<need_instance>1</need_instance>
+</module>
