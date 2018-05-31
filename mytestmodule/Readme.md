@@ -1,7 +1,7 @@
 # mytestmodule
 
 ## Description
-Simple test module to add "<p style="color:red;">hello footer hook!</p>" in the footer by displayFooter hook and to add "<p style="color:red;">Hello custom hook!</p>" in all bottom pages by displayBeforeFooter custom hook.
+Simple test module to add "hello footer hook!" in the footer by displayFooter hook and to add "Hello custom hook!" in all bottom pages by displayBeforeFooter custom hook.
 
 ## Install
 Juste clone this repository on your machine and copy the mytestmodule directory on your prestashop modules path before load it and installing it with your prestashop backend.
