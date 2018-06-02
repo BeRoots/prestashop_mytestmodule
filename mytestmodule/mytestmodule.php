@@ -181,42 +181,41 @@ class Mytestmodule extends Module
                         ),
                         'hint' => $this->l('If enabled, the module add "Hello footer hook!" in your prestashop footer source code.')
                     ),
-                ),
-                array(
-                    'type' => 'switch',
-                    'label' => $this->l('With Common Structured Data'),
-                    'name' => 'MYTESTMODULE_WITH_CUSTOM_FOOTER_CONTENT',
-                    'is_bool' => true,
-                    'desc' => $this->l('Add "Hello custom hook!" in your prestashop footer source code.'),
-                    'values' => array(
-                        array(
-                            'id' => 'active_on',
-                            'value' => true,
-                            'label' => $this->l('Enabled')
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('With Common Structured Data'),
+                        'name' => 'MYTESTMODULE_WITH_CUSTOM_FOOTER_CONTENT',
+                        'is_bool' => true,
+                        'desc' => $this->l('Add "Hello custom hook!" in your prestashop footer source code.'),
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => true,
+                                'label' => $this->l('Enabled')
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => false,
+                                'label' => $this->l('Disabled')
+                            )
                         ),
-                        array(
-                            'id' => 'active_off',
-                            'value' => false,
-                            'label' => $this->l('Disabled')
-                        )
+                        'hint' => $this->l('If enabled, the module add "Hello custom hook!" in your prestashop footer source code.')
                     ),
-                    'hint' => $this->l('If enabled, the module add "Hello custom hook!" in your prestashop footer source code.')
                 ),
-            ),
-            'buttons' => array(
+                'buttons' => array(
                     'cancel' => array(
                         'title' => $this->l('Cancel'),
                         'href' => '#',
                         'js' => 'window.history.back();',
                         'icon' => 'process-icon-cancel'
                     )
-                ),
-                'submit' => array(
-                    'title' => $this->l('Save'),
-                    'name' => 'submitMytestmoduleModule',
-                    'icon' => 'process-icon-save'
+                    'submit' => array(
+                        'title' => $this->l('Save'),
+                        'name' => 'submitMytestmoduleModule',
+                        'icon' => 'process-icon-save'
+                    )
                 )
-            ),
+            )
         );
     }
 
