@@ -208,7 +208,7 @@ class Mytestmodule extends Module
                         'href' => '#',
                         'js' => 'window.history.back();',
                         'icon' => 'process-icon-cancel'
-                    )
+                    ),
                     'submit' => array(
                         'title' => $this->l('Save'),
                         'name' => 'submitMytestmoduleModule',
