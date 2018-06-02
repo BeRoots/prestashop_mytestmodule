@@ -30,6 +30,10 @@ if (!defined('_PS_VERSION_')) {
 
 class Mytestmodule extends Module
 {
+    // Define two properties coresponding to inputs in admin form
+    private $with_footer_content = false;
+    private $with_footer_custom_content = false;
+
     protected $config_form = false;
 
     public function __construct()
@@ -65,13 +69,16 @@ class Mytestmodule extends Module
 
         return parent::install() &&
             $this->registerHook('header') &&
-            $this->registerHook('backOfficeHeader') &&
-            $this->registerHook('displayFooter');
+            $this->registerHook('displayFooter') &&
+            $this->registerHook('displayCustomFooter');
     }
 
     public function uninstall()
     {
         Configuration::deleteByName('MYTESTMODULE_LIVE_MODE');
+
+        //define special hooks for this module
+        include(dirname(__FILE__).'/sql/uninstall.php');
 
         return parent::uninstall();
     }
@@ -87,7 +94,7 @@ class Mytestmodule extends Module
         if (((bool)Tools::isSubmit('submitMytestmoduleModule')) == true) {
             $this->postProcess();
         }
-
+        
         $this->context->smarty->assign('module_dir', $this->_path);
 
         $output = $this->context->smarty->fetch($this->local_path.'views/templates/admin/configure.tpl');
@@ -131,8 +138,8 @@ class Mytestmodule extends Module
         return array(
             'form' => array(
                 'legend' => array(
-                'title' => $this->l('Settings'),
-                'icon' => 'icon-cogs',
+                    'title' => $this->l('Settings'),
+                    'icon' => 'icon-cogs',
                 ),
                 'input' => array(
                     /*array(
@@ -155,22 +162,60 @@ class Mytestmodule extends Module
                         ),
                     ),*/
                     array(
-                        'col' => 3,
-                        'type' => 'text',
-                        'prefix' => '<i class="icon icon-envelope"></i>',
-                        'desc' => $this->l('Enter a valid email address'),
-                        'name' => 'MYTESTMODULE_ACCOUNT_EMAIL',
-                        'label' => $this->l('Email'),
+                        'type' => 'switch',
+                        'label' => $this->l('With Common Structured Data'),
+                        'name' => 'MYTESTMODULE_WITH_FOOTER_CONTENT',
+                        'is_bool' => true,
+                        'desc' => $this->l('Add "Hello footer hook!" in your prestashop footer source code.'),
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => true,
+                                'label' => $this->l('Enabled')
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => false,
+                                'label' => $this->l('Disabled')
+                            )
+                        ),
+                        'hint' => $this->l('If enabled, the module add "Hello footer hook!" in your prestashop footer source code.')
                     ),
-                    array(
-                        'type' => 'password',
-                        'name' => 'MYTESTMODULE_ACCOUNT_PASSWORD',
-                        'label' => $this->l('Password'),
+                ),
+                array(
+                    'type' => 'switch',
+                    'label' => $this->l('With Common Structured Data'),
+                    'name' => 'MYTESTMODULE_WITH_CUSTOM_FOOTER_CONTENT',
+                    'is_bool' => true,
+                    'desc' => $this->l('Add "Hello custom hook!" in your prestashop footer source code.'),
+                    'values' => array(
+                        array(
+                            'id' => 'active_on',
+                            'value' => true,
+                            'label' => $this->l('Enabled')
+                        ),
+                        array(
+                            'id' => 'active_off',
+                            'value' => false,
+                            'label' => $this->l('Disabled')
+                        )
                     ),
+                    'hint' => $this->l('If enabled, the module add "Hello custom hook!" in your prestashop footer source code.')
+                ),
+            ),
+            'buttons' => array(
+                    'cancel' => array(
+                        'title' => $this->l('Cancel'),
+                        'href' => '#',
+                        'js' => 'window.history.back();',
+                        'icon' => 'process-icon-cancel'
+                    )
                 ),
                 'submit' => array(
                     'title' => $this->l('Save'),
-                ),
+                    'name' => 'submitMytestmoduleModule',
+                    'icon' => 'process-icon-save'
+                )
             ),
         );
     }
@@ -182,8 +227,8 @@ class Mytestmodule extends Module
     {
         return array(
             //'MYTESTMODULE_LIVE_MODE' => Configuration::get('MYTESTMODULE_LIVE_MODE', true),
-            'MYTESTMODULE_ACCOUNT_EMAIL' => Configuration::get('MYTESTMODULE_ACCOUNT_EMAIL', 'contact@prestashop.com'),
-            'MYTESTMODULE_ACCOUNT_PASSWORD' => Configuration::get('MYTESTMODULE_ACCOUNT_PASSWORD', null),
+            'MYTESTMODULE_WITH_FOOTER_CONTENT' => Configuration::get('MYTESTMODULE_WITH_FOOTER_CONTENT', false),
+            'MYTESTMODULE_WITH_CUSTOM_FOOTER_CONTENT' => Configuration::get('MYTESTMODULE_WITH_CUSTOM_FOOTER_CONTENT', false),
         );
     }
 
@@ -194,33 +239,40 @@ class Mytestmodule extends Module
     {
         $form_values = $this->getConfigFormValues();
 
-        foreach (array_keys($form_values) as $key) {
-            Configuration::updateValue($key, Tools::getValue($key));
-        }
-    }
+        if (Tools::isSubmit('submitMytestmoduleModule')) {
+            foreach (array_keys($form_values) as $key) {
+                // process _POST inputs
+                if (in_array($key, array(
+                    'MYTESTMODULE_WITH_FOOTER_CONTENT',
+                    'MYTESTMODULE_WITH_CUSTOM_FOOTER_CONTENT'))
+                ) {
+                    Configuration::updateValue($key, Tools::getValue($key));
+                }
 
-    /**
-    * Add the CSS & JavaScript files you want to be loaded in the BO.
-    */
-    /*public function hookBackOfficeHeader()
-    {
-        if (Tools::getValue('module_name') == $this->name) {
-            $this->context->controller->addJS($this->_path.'views/js/back.js');
-            $this->context->controller->addCSS($this->_path.'views/css/back.css');
+                if ($key == 'MYTESTMODULE_WITH_FOOTER_CONTENT') {
+                    $this->with_labels = Tools::getValue($key);
+                } elseif ($key == 'MYTESTMODULE_WITH_CUSTOM_FOOTER_CONTENT') {
+                    $this->with_header_background = Tools::getValue($key);
+                }
+            }
         }
-    }*/
-
-    /**
-     * Add the CSS & JavaScript files you want to be added on the FO.
-     */
-    public function hookHeader()
-    {
-        $this->context->controller->addJS($this->_path.'/views/js/front.js');
-        $this->context->controller->addCSS($this->_path.'/views/css/front.css');
     }
 
     public function hookDisplayFooter()
     {
-        /* Place your code here. */
+        if ($this->with_footer_content === true) {
+            return $this->display(__FILE__, 'hello_footer.tpl', $this->getCacheId());
+        } else {
+            return false;
+        }
+    }
+
+    public function hookDisplayCustomFooter()
+    {
+        if ($this->with_footer_custom_content === true) {
+            return $this->display(__FILE__, 'hello_custom_footer.tpl', $this->getCacheId());
+        } else {
+            return false;
+        }
     }
 }
