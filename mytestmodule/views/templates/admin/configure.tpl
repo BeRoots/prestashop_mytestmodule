@@ -24,19 +24,19 @@
 *}
 
 <div class="panel">
-	<h3><i class="icon icon-credit-card"></i> {l s='mytestmodule display name' mod='mytestmodule'}</h3>
+	<h3><i class="icon icon-credit-card"></i> {l s='Extra Structured Data' mod='mytestmodule'}</h3>
 	<p>
-		<strong>{l s='Here is my new generic module!' mod='mytestmodule'}</strong><br />
-		{l s='Thanks to PrestaShop, now I have a great module.' mod='mytestmodule'}<br />
-		{l s='I can configure it using the following configuration form.' mod='mytestmodule'}
+		<strong>{l s='Welcome on mytestmodule !' mod='mytestmodule'}</strong><br />
+		{l s='Thanks to use this module.' mod='mytestmodule'}<br />
+		{l s='You can configure it using the following configuration form.' mod='mytestmodule'}
 	</p>
 	<br />
 	<p>
-		{l s='This module will boost your sales!' mod='mytestmodule'}
+		{l s='This module enable the possibility to add "Hello footer" and "Hello custom footer" text in your front Office throw hookDisplayFooter and hookDisplayCustomFooter respectivly.' mod='mytestmodule'}
 	</p>
 </div>
 
-<div class="panel">
+<!-- <div class="panel">
 	<h3><i class="icon icon-tags"></i> {l s='Documentation' mod='mytestmodule'}</h3>
 	<p>
 		&raquo; {l s='You can get a PDF documentation to configure this module' mod='mytestmodule'} :
@@ -45,4 +45,4 @@
 			<li><a href="#" target="_blank">{l s='French' mod='mytestmodule'}</a></li>
 		</ul>
 	</p>
-</div>
+</div> -->
