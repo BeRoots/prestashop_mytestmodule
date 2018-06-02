@@ -135,7 +135,7 @@ class Mytestmodule extends Module
                 'icon' => 'icon-cogs',
                 ),
                 'input' => array(
-                    array(
+                    /*array(
                         'type' => 'switch',
                         'label' => $this->l('Live mode'),
                         'name' => 'MYTESTMODULE_LIVE_MODE',
@@ -153,7 +153,7 @@ class Mytestmodule extends Module
                                 'label' => $this->l('Disabled')
                             )
                         ),
-                    ),
+                    ),*/
                     array(
                         'col' => 3,
                         'type' => 'text',
@@ -181,7 +181,7 @@ class Mytestmodule extends Module
     protected function getConfigFormValues()
     {
         return array(
-            'MYTESTMODULE_LIVE_MODE' => Configuration::get('MYTESTMODULE_LIVE_MODE', true),
+            //'MYTESTMODULE_LIVE_MODE' => Configuration::get('MYTESTMODULE_LIVE_MODE', true),
             'MYTESTMODULE_ACCOUNT_EMAIL' => Configuration::get('MYTESTMODULE_ACCOUNT_EMAIL', 'contact@prestashop.com'),
             'MYTESTMODULE_ACCOUNT_PASSWORD' => Configuration::get('MYTESTMODULE_ACCOUNT_PASSWORD', null),
         );
@@ -202,13 +202,13 @@ class Mytestmodule extends Module
     /**
     * Add the CSS & JavaScript files you want to be loaded in the BO.
     */
-    public function hookBackOfficeHeader()
+    /*public function hookBackOfficeHeader()
     {
         if (Tools::getValue('module_name') == $this->name) {
             $this->context->controller->addJS($this->_path.'views/js/back.js');
             $this->context->controller->addCSS($this->_path.'views/css/back.css');
         }
-    }
+    }*/
 
     /**
      * Add the CSS & JavaScript files you want to be added on the FO.
