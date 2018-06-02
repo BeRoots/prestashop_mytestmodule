@@ -26,10 +26,12 @@
 
 $sql = array();
 
-$sql[] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'mytestmodule` (
-    `id_mytestmodule` int(11) NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY  (`id_mytestmodule`)
-) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8;';
+$sql[0] = 'INSERT INTO `'._DB_PREFIX_.'hook` ('
+    . '`name`, `title`, `description`, `position`, `live_edit`) VALUES '
+    . '(\'displayCustomFooter\','
+    . ' \'Display displayCustomFooter hook\','
+    . ' \'A hook to display the content of mytestmodule displayCustomFooter hook on footer of all pages\','
+    .' 1, 0);';
 
 foreach ($sql as $query) {
     if (Db::getInstance()->execute($query) == false) {

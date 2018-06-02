@@ -32,7 +32,10 @@
 
 $sql = array();
 
-foreach ($sql as $query) {
+$sql[0] = 'DELETE FROM `'._DB_PREFIX_.'hook` WHERE'
+    . ' `name`=\'displayCustomFooter\';';
+
+    foreach ($sql as $query) {
     if (Db::getInstance()->execute($query) == false) {
         return false;
     }
